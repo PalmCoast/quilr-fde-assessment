@@ -1,0 +1,16 @@
+{
+  "name": "@quilr/demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@quilr/task1": "*",
+    "@quilr/task2": "*",
+    "@quilr/task3": "*",
+    "@quilr/task4": "*"
+  }
+}

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quilr FDE take-home — Daniel Graham</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Quilr AI · Solutions Engineer / FDE</p>
+          <h1>Four control-plane problems, one local demo.</h1>
+          <p class="lede">
+            Tasks 1–4 only. No vendor keys. The same tokens the README documents are
+            prefilled below so a reviewer can click through the rubric in a few minutes.
+          </p>
+        </div>
+        <div class="tokens">
+          <span class="chip"><b>admin</b> admin-token</span>
+          <span class="chip"><b>viewer</b> viewer-token</span>
+          <span class="chip"><b>tenant</b> tenant-demo</span>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="card">
+          <h2>1. Customer MCP tools</h2>
+          <p>Zod-validated <code>get_customer_record</code> and <code>trigger_refund</code>. Invalid ids return MCP <code>-32602</code>.</p>
+          <label>customer_id <input id="t1-id" value="CUST-10001" /></label>
+          <label>amount <input id="t1-amount" type="number" value="18.5" /></label>
+          <label>reason <input id="t1-reason" value="Duplicate charge on last invoice" /></label>
+          <div class="row">
+            <button class="primary" id="t1-get">Get record</button>
+            <button id="t1-refund">Trigger refund</button>
+            <button id="t1-bad">Invalid id</button>
+          </div>
+          <pre id="t1-out">Ready.</pre>
+        </section>
+
+        <section class="card">
+          <h2>2. MCP security gateway</h2>
+          <p>Viewers can <em>see</em> <code>admin_*</code> tools. They cannot call them. Downstream is not touched on a deny.</p>
+          <label>Bearer token
+            <select id="t2-token">
+              <option value="viewer-token">viewer-token</option>
+              <option value="admin-token">admin-token</option>
+            </select>
+          </label>
+          <div class="row">
+            <button class="primary" id="t2-list">tools/list</button>
+            <button id="t2-admin">Call admin_list_customers</button>
+            <button id="t2-customer">Call get_customer_record</button>
+          </div>
+          <pre id="t2-out">Ready.</pre>
+        </section>
+
+        <section class="card">
+          <h2>3. Streaming PII guardrail</h2>
+          <p>Email, SSN, and Luhn-valid cards become <code>[REDACTED]</code>, including when they straddle chunk boundaries.</p>
+          <label>model stream
+            <textarea id="t3-text">Please email jane.doe@acme.com. SSN 123-45-6789. Card 4111 1111 1111 1111. Then continue.</textarea>
+          </label>
+          <div class="row"><button class="primary" id="t3-go">Stream and redact</button></div>
+          <pre id="t3-out">Ready.</pre>
+        </section>
+
+        <section class="card">
+          <h2>4. Rate limit + failover</h2>
+          <p>50,000 tokens/min/tenant in SQLite. Primary 429 or 3s timeout moves the call to secondary. Errors stay in a fixed envelope.</p>
+          <label>tenant token <input id="t4-tenant" value="tenant-demo" /></label>
+          <label>prompt <input id="t4-prompt" value="Summarize last week's refunds" /></label>
+          <label>tokens to reserve <input id="t4-tokens" type="number" value="120" /></label>
+          <p class="note" id="t4-mode">Primary: ok</p>
+          <div class="row">
+            <button id="t4-ok">Primary healthy</button>
+            <button id="t4-429">Primary 429</button>
+            <button id="t4-timeout">Primary timeout</button>
+            <button class="primary" id="t4-send">Send completion</button>
+          </div>
+          <pre id="t4-out">Ready.</pre>
+        </section>
+      </main>
+
+      <p class="footer">
+        Daniel Graham · due 8 September 2026 ·
+        <a href="https://github.com/PalmCoast/quilr-fde-assessment">github.com/PalmCoast/quilr-fde-assessment</a>
+        · There is no Task 5 in the problem set that was provided.
+      </p>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

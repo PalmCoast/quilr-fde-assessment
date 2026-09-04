@@ -1,0 +1,29 @@
+{
+  "name": "quilr-fde-assessment",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "task1",
+    "task2",
+    "task3",
+    "task4",
+    "demo"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "demo": "npm run start -w @quilr/demo",
+    "start:task1": "npm run start -w @quilr/task1",
+    "start:task2": "npm run start -w @quilr/task2",
+    "start:task3": "npm run start -w @quilr/task3",
+    "start:task4": "npm run start -w @quilr/task4"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
